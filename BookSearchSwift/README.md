@@ -27,9 +27,7 @@
 Xcode 
 Version 11.7
 
-# Installation
-- Clone the repo
-- https://github.com/miltonpl/ImageFiltering
+
 # Contact
 miltonpalaguachi@gmail.com
 
