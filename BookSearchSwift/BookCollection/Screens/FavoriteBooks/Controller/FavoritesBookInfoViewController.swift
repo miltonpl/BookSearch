@@ -61,14 +61,18 @@ class FavoritesBookInfoViewController: UIViewController {
 }
 
 // MARK: - UICollectionViewDelegate
+//cell.configure(model: self.modelView.bookInfoAtIndex(indexAt: indexPath.row))
 
 extension FavoritesBookInfoViewController: UICollectionViewDelegate {
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         
-        collectionView.deselectItem(at: indexPath, animated: true)
         let storyboard = UIStoryboard(name: "Main", bundle: nil)
-        guard  let detailVC = storyboard.instantiateViewController(identifier: "BookDetailsViewController") as? BookDetailsViewController else { fatalError("Unable to instantiate Viewcontroller") }
-        self.navigationController?.pushViewController(detailVC, animated: true)
+        guard let detailVC = storyboard.instantiateViewController(identifier: "BookDetailsViewController") as? BookDetailsViewController else { fatalError("Unable to instantiate Viewcontroller") }
+        
+        detailVC.volumeInfo = self.volumes[indexPath.row]
+        let navViewController = UINavigationController(rootViewController: detailVC)
+        self.navigationController?.present(navViewController, animated: true, completion: nil)
+//        self.navigationController?.pushViewController(detailVC, animated: true)
     }
 }
 
@@ -83,10 +87,10 @@ extension FavoritesBookInfoViewController: UICollectionViewDataSource {
     func collectionView(_ collectionView: UICollectionView, cellForItemAt
         indexPath: IndexPath) -> UICollectionViewCell {
         
-        guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "VolumeCollectionViewCell", for: indexPath) as? VolumeCollectionViewCell,
-              let url = URL(string: self.volumes[indexPath.row].bookImageUrl ?? "") else {
+        guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "VolumeCollectionViewCell", for: indexPath) as? VolumeCollectionViewCell else {
                 fatalError("Unable to dequeueReusableCell in VolumeCollectionView")
         }
+        let url = URL(string: self.volumes[indexPath.row].bookImageUrl ?? "")
         
         let model = CellModel(url: url, title: self.volumes[indexPath.row].title, subtitle: self.volumes[indexPath.row].subtitle, studentId: self.volumes[indexPath.row].identifier)
         cell.configure(model: model)

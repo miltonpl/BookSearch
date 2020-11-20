@@ -1,4 +1,4 @@
-// ViewController.swift
+// BookListViewController.swift
 //  BookCollection
 //
 //  Created by Milton Palaguachi on 9/18/20.
@@ -20,10 +20,11 @@ class BookListViewController: UIViewController {
         activityIndicator.center = self.view.center
         return activityIndicator
     }()
+    
     // MARK: - View Life Cicle
     override func viewDidLoad() {
         super.viewDidLoad()
-        self.title = "Table View Layout"
+        self.title = "Table View"
         self.modelView.delegate = self
         self.setupItemTabBar()
     }
@@ -44,12 +45,12 @@ class BookListViewController: UIViewController {
         self.navigationItem.rightBarButtonItem = favoties
     }
     
+    // MARK: - Go To Favotire View Controller
     @objc func goToMyFavorites(_ sender: UIBarButtonItem) {
         let storyboard = UIStoryboard(name: "Main", bundle: nil)
         guard let favoriteViewController = storyboard.instantiateViewController(identifier: "FavoritesBookInfoViewController") as? FavoritesBookInfoViewController else {
             fatalError("Unable to instantiate view controller with identifier: FavoritesBookInfoViewController")
         }
-        
         self.navigationController?.pushViewController(favoriteViewController, animated: true)
     }
 }
@@ -76,12 +77,11 @@ extension  BookListViewController: UITableViewDataSource, UITableViewDelegate {
         guard  let detailVC = storyboard.instantiateViewController(identifier: "BookDetailsViewController") as? BookDetailsViewController else { fatalError("unable to instantiateViewController") }
         detailVC.volumeInfo = self.modelView.bookSelectedAt(indexAt: indexPath.row)
         let navController = UINavigationController(rootViewController: detailVC)
-//        self.navigationController?.pushViewController(detailVC, animated: true)
         self.navigationController?.present(navController, animated: true, completion: nil)
     }
 }
 
-// MARK: - Book View Model Protocol
+// MARK: - Book ViewModel Protocol
 extension BookListViewController: BooksviewModelProtocol {
     
     func reloadSuccess() {
@@ -102,15 +102,24 @@ extension BookListViewController: BooksviewModelProtocol {
         self.view.addSubview(self.activityIdicator)
     }
 }
-
+// MARK: - Search Bar Delegation
 extension BookListViewController: UISearchBarDelegate {
+    
     func searchBarCancelButtonClicked(_ searchBar: UISearchBar) {
         self.searchBar.text = nil
         self.searchBar.placeholder = "book search"
         self.modelView.resetDataSource()
     }
     
+    // MARK: - Text Entered By User
     func searchBar(_ searchBar: UISearchBar, textDidChange searchText: String) {
+        guard !searchText.isEmpty else {
+            self.searchBar.text = nil
+            self.searchBar.placeholder = "book search"
+            self.modelView.resetDataSource()
+            return
+        }
+        
         if searchText.count >= 4 {
             let text = searchText.trimmingCharacters(in: .whitespacesAndNewlines)
             if let queryUrl = text.addingPercentEncoding(withAllowedCharacters: .urlQueryAllowed) {

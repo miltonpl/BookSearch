@@ -10,18 +10,21 @@ import UIKit
 
 class BookCollectionViewController: UIViewController {
     
+    // MARK: - IBOutles Declaration
     @IBOutlet private weak var searchBar: UISearchBar!
     @IBOutlet private weak var collectionView: UICollectionView!
     
+    // MARK: - Store Private Properties
     private var modelView = BooksViewModel()
     private var itemsPerRow: CGFloat = 2.0
     private var sectionInset = UIEdgeInsets(top: 10.0, left: 10.0, bottom: 10.0, right: 10.0)
+    
     // MARK: - View Life Cycle
     override func viewDidLoad() {
         super.viewDidLoad()
         self.collectionView.backgroundColor = .white
         self.modelView.delegate = self
-        self.title = "Collection View Layout"
+        self.title = "Collection View"
     }
     
     override func viewDidAppear(_ animated: Bool) {
@@ -39,7 +42,7 @@ class BookCollectionViewController: UIViewController {
         let favoties = UIBarButtonItem(title: "Favorites", style: .plain, target: self, action: #selector(goToMyFavorites(_:)))
         self.navigationItem.rightBarButtonItem = favoties
     }
-    
+    // MARK: - Go to Favorite View Controller
     @objc func goToMyFavorites(_ sender: UIBarButtonItem) {
         let storyboard = UIStoryboard(name: "Main", bundle: nil)
         guard let favoriteViewController = storyboard.instantiateViewController(identifier: "FavoritesBookInfoViewController") as? FavoritesBookInfoViewController else {
@@ -53,6 +56,7 @@ class BookCollectionViewController: UIViewController {
 // MARK: - UICollectionViewDelegate
 
 extension BookCollectionViewController: UICollectionViewDelegate {
+    
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         
         collectionView.deselectItem(at: indexPath, animated: true)
@@ -60,7 +64,8 @@ extension BookCollectionViewController: UICollectionViewDelegate {
         guard  let detailVC = storyboard.instantiateViewController(identifier: "BookDetailsViewController") as? BookDetailsViewController else { fatalError("Unable to instantiate Viewcontroller") }
         
         detailVC.volumeInfo = self.modelView.bookSelectedAt(indexAt: indexPath.row)
-        self.navigationController?.pushViewController(detailVC, animated: true)
+        let navController = UINavigationController(rootViewController: detailVC)
+        self.navigationController?.present(navController, animated: true, completion: nil)
     }
 }
 
@@ -100,7 +105,7 @@ extension BookCollectionViewController: UICollectionViewDelegateFlowLayout {
     }
 }
 
-// MARK: - Books View Model Protocol
+// MARK: - Books ViewModel Protocol
 extension BookCollectionViewController: BooksviewModelProtocol {
     
     func reloadSuccess() {
@@ -125,8 +130,16 @@ extension BookCollectionViewController: UISearchBarDelegate {
         self.searchBar.placeholder = "book search"
         self.modelView.resetDataSource()
     }
-    // MARK: - Text Entered
+    
+    // MARK: - Text Entered By User
     func searchBar(_ searchBar: UISearchBar, textDidChange searchText: String) {
+        guard !searchText.isEmpty else {
+            self.searchBar.text = nil
+            self.searchBar.placeholder = "book search"
+            self.modelView.resetDataSource()
+            return
+        }
+        
         if searchText.count >= 4 {
             let text = searchText.trimmingCharacters(in: .whitespacesAndNewlines)
             if let queryUrl = text.addingPercentEncoding(withAllowedCharacters: .urlQueryAllowed) {

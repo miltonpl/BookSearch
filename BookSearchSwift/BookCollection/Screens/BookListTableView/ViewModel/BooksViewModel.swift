@@ -80,9 +80,8 @@ class BooksViewModel: BookListViewControllerProtocol {
     }
     
     func bookInfoAtIndex(indexAt row: Int) -> CellModel {
-        guard let volume = dataSource[row].volumeInfo,
-              let bookUrl = volume.imageLinks?.smallThumbnail,
-              let url = URL(string: bookUrl) else { fatalError("Error getting volume info") }
+        guard let volume = dataSource[row].volumeInfo else { fatalError("Error getting volume info") }
+        let url = URL(string: volume.imageLinks?.smallThumbnail ?? "")
         return CellModel(url: url, title: volume.title, subtitle: volume.subtitle)
     }
     

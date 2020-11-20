@@ -57,7 +57,9 @@ class BookDetailsViewController: UIViewController {
         
         let safari = UIBarButtonItem(image: Constants.safariImage, style: .plain, target: self, action: #selector(webSearch(_:)))
         let save = UIBarButtonItem(barButtonSystemItem: .save, target: self, action: #selector(saveVolumeToDadaBase(_:)))
+        let done = UIBarButtonItem(barButtonSystemItem: .done, target: self, action: #selector(doneAction(_:)))
         self.navigationItem.rightBarButtonItems = [save, safari]
+        self.navigationItem.leftBarButtonItem = done
     }
     
     // MARK: - Download Book Image
@@ -75,7 +77,10 @@ class BookDetailsViewController: UIViewController {
                 print("error - \(error)")
             }
         }
-        
+    }
+    
+    @objc func doneAction(_ sender: UIBarButtonItem) {
+        self.dismiss(animated: true, completion: nil)
     }
     
     // MARK: - Setup Link for book
@@ -91,38 +96,38 @@ class BookDetailsViewController: UIViewController {
     private func setProperties() {
         
         guard let volume = volumeInfo else { return }
-        if let title = volume.title {
+        if let title = volume.title, !title.isEmpty {
             self.bookDetils.append((.title, title))
         }
-        if let subtitle = volume.subtitle {
+        if let subtitle = volume.subtitle, !subtitle.isEmpty {
             self.bookDetils.append((.subtitle, subtitle))
         }
         
-        if let author = volume.authors {
+        if let author = volume.authors, !author.isEmpty {
             self.bookDetils.append((.author, author))
         }
         
-        if let publisher = volume.publisher {
+        if let publisher = volume.publisher, !publisher.isEmpty {
             self.bookDetils.append((.publisher, publisher ))
         }
         
-        if let publishedDate = volume.publishedDate {
+        if let publishedDate = volume.publishedDate, !publishedDate.isEmpty {
             self.bookDetils.append((.publishedDate, publishedDate))
         }
         
-        if let description = volume.description {
+        if let description = volume.description, !description.isEmpty {
             self.bookDetils.append((.description, description ))
         }
         
-        if let count = volume.pageCount {
+        if let count = volume.pageCount, count != 0 {
             self.bookDetils.append((.pageCount, "\(count)" ))
         }
         
-        if let averageRating = volume.averageRating {
+        if let averageRating = volume.averageRating, averageRating != 0.0 {
             self.bookDetils.append((.averageRating, "\(averageRating)" ))
         }
         
-        if let language = volume.language {
+        if let language = volume.language, !language.isEmpty {
             self.bookDetils.append((.language, language))
         }
     }
