@@ -64,6 +64,7 @@ extension BookCollectionViewController: UICollectionViewDelegate {
         guard  let detailVC = storyboard.instantiateViewController(identifier: "BookDetailsViewController") as? BookDetailsViewController else { fatalError("Unable to instantiate Viewcontroller") }
         
         detailVC.volumeInfo = self.modelView.bookSelectedAt(indexAt: indexPath.row)
+        detailVC.addSaveBarItem()
         let navController = UINavigationController(rootViewController: detailVC)
         self.navigationController?.present(navController, animated: true, completion: nil)
     }

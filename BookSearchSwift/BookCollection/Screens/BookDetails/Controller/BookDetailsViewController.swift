@@ -46,8 +46,7 @@ class BookDetailsViewController: UIViewController {
     
     // MARK: - Set Properties
     @objc func webSearch (_ sender: UIBarButtonItem) {
-        guard let url = URL(string: previewLink ?? "") else {return}
-        
+        guard let url = URL(string: previewLink ?? "") else { return }
         UIApplication.shared.open(url)
     }
     
@@ -56,10 +55,14 @@ class BookDetailsViewController: UIViewController {
     private func setupNavigationItem() {
         
         let safari = UIBarButtonItem(image: Constants.safariImage, style: .plain, target: self, action: #selector(webSearch(_:)))
-        let save = UIBarButtonItem(barButtonSystemItem: .save, target: self, action: #selector(saveVolumeToDadaBase(_:)))
         let done = UIBarButtonItem(barButtonSystemItem: .done, target: self, action: #selector(doneAction(_:)))
-        self.navigationItem.rightBarButtonItems = [save, safari]
-        self.navigationItem.leftBarButtonItem = done
+        self.navigationItem.leftBarButtonItems = [done, safari]
+    }
+    
+    public func addSaveBarItem() {
+        let save = UIBarButtonItem(barButtonSystemItem: .save, target: self, action: #selector(saveVolumeToDadaBase(_:)))
+        self.navigationItem.rightBarButtonItem = save
+        
     }
     
     // MARK: - Download Book Image
@@ -69,7 +72,7 @@ class BookDetailsViewController: UIViewController {
         self.bookImageView.downloadImage(with: url)
     }
     
-    @objc func saveVolumeToDadaBase(_ sender: UIBarButtonItem) {
+    @objc private func saveVolumeToDadaBase(_ sender: UIBarButtonItem) {
         if let volume = self.volumeInfo {
             do {
                 try DBManager.shared.insert(volume: volume)
@@ -79,7 +82,7 @@ class BookDetailsViewController: UIViewController {
         }
     }
     
-    @objc func doneAction(_ sender: UIBarButtonItem) {
+    @objc private func doneAction(_ sender: UIBarButtonItem) {
         self.dismiss(animated: true, completion: nil)
     }
     

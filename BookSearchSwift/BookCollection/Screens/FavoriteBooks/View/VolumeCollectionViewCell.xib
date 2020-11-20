@@ -19,31 +19,32 @@
                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                 <subviews>
                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="pEM-xR-4LA">
-                        <rect key="frame" x="10" y="10" width="234" height="285"/>
+                        <rect key="frame" x="0.0" y="0.0" width="254" height="305"/>
                         <subviews>
                             <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="cjV-gg-aee">
-                                <rect key="frame" x="5" y="5" width="224" height="226"/>
+                                <rect key="frame" x="0.0" y="0.0" width="254" height="256.5"/>
                             </imageView>
-                            <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" spacing="10" translatesAutoresizingMaskIntoConstraints="NO" id="sHW-gQ-Qns">
-                                <rect key="frame" x="5" y="241" width="224" height="39"/>
+                            <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" spacing="5" translatesAutoresizingMaskIntoConstraints="NO" id="sHW-gQ-Qns">
+                                <rect key="frame" x="5" y="264.5" width="244" height="35.5"/>
                                 <subviews>
                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="a2n-LM-9Jd">
-                                        <rect key="frame" x="0.0" y="0.0" width="224" height="14.5"/>
-                                        <fontDescription key="fontDescription" type="system" weight="medium" pointSize="12"/>
+                                        <rect key="frame" x="0.0" y="0.0" width="244" height="16"/>
+                                        <fontDescription key="fontDescription" type="system" weight="medium" pointSize="13"/>
                                         <nil key="textColor"/>
                                         <nil key="highlightedColor"/>
                                     </label>
                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="jCb-tT-dQA">
-                                        <rect key="frame" x="0.0" y="24.5" width="224" height="14.5"/>
+                                        <rect key="frame" x="0.0" y="21" width="244" height="14.5"/>
                                         <fontDescription key="fontDescription" type="system" pointSize="12"/>
                                         <nil key="textColor"/>
                                         <nil key="highlightedColor"/>
                                     </label>
                                 </subviews>
                             </stackView>
-                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="CbD-mH-Orh">
-                                <rect key="frame" x="199" y="5" width="30" height="30"/>
-                                <state key="normal" title="X">
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="CbD-mH-Orh">
+                                <rect key="frame" x="232.5" y="0.0" width="21.5" height="22"/>
+                                <color key="tintColor" systemColor="systemRedColor"/>
+                                <state key="normal" image="delete.right" catalog="system">
                                     <color key="titleColor" systemColor="systemPinkColor"/>
                                 </state>
                                 <connections>
@@ -53,14 +54,14 @@
                         </subviews>
                         <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                         <constraints>
-                            <constraint firstItem="CbD-mH-Orh" firstAttribute="top" secondItem="pEM-xR-4LA" secondAttribute="top" constant="5" id="3ro-xY-UPl"/>
-                            <constraint firstItem="cjV-gg-aee" firstAttribute="top" secondItem="pEM-xR-4LA" secondAttribute="top" constant="5" id="Iac-WG-5DY"/>
-                            <constraint firstAttribute="trailing" secondItem="cjV-gg-aee" secondAttribute="trailing" constant="5" id="JF7-h2-nEG"/>
+                            <constraint firstItem="CbD-mH-Orh" firstAttribute="top" secondItem="pEM-xR-4LA" secondAttribute="top" id="3ro-xY-UPl"/>
+                            <constraint firstItem="cjV-gg-aee" firstAttribute="top" secondItem="pEM-xR-4LA" secondAttribute="top" id="Iac-WG-5DY"/>
+                            <constraint firstAttribute="trailing" secondItem="cjV-gg-aee" secondAttribute="trailing" id="JF7-h2-nEG"/>
                             <constraint firstAttribute="bottom" secondItem="sHW-gQ-Qns" secondAttribute="bottom" constant="5" id="OqM-1U-6UE"/>
-                            <constraint firstItem="sHW-gQ-Qns" firstAttribute="top" secondItem="cjV-gg-aee" secondAttribute="bottom" constant="10" id="RFT-hC-Drs"/>
+                            <constraint firstItem="sHW-gQ-Qns" firstAttribute="top" secondItem="cjV-gg-aee" secondAttribute="bottom" constant="8" symbolic="YES" id="RFT-hC-Drs"/>
                             <constraint firstItem="sHW-gQ-Qns" firstAttribute="leading" secondItem="pEM-xR-4LA" secondAttribute="leading" constant="5" id="aQl-xR-BSV"/>
-                            <constraint firstItem="cjV-gg-aee" firstAttribute="leading" secondItem="pEM-xR-4LA" secondAttribute="leading" constant="5" id="p8o-Pf-CVd"/>
-                            <constraint firstAttribute="trailing" secondItem="CbD-mH-Orh" secondAttribute="trailing" constant="5" id="s97-vV-gri"/>
+                            <constraint firstItem="cjV-gg-aee" firstAttribute="leading" secondItem="pEM-xR-4LA" secondAttribute="leading" id="p8o-Pf-CVd"/>
+                            <constraint firstAttribute="trailing" secondItem="CbD-mH-Orh" secondAttribute="trailing" id="s97-vV-gri"/>
                             <constraint firstAttribute="trailing" secondItem="sHW-gQ-Qns" secondAttribute="trailing" constant="5" id="xHs-oD-Cyf"/>
                         </constraints>
                     </view>
@@ -68,10 +69,10 @@
             </view>
             <viewLayoutGuide key="safeArea" id="ZTg-uK-7eu"/>
             <constraints>
-                <constraint firstItem="pEM-xR-4LA" firstAttribute="leading" secondItem="gTV-IL-0wX" secondAttribute="leading" constant="10" id="L0v-KP-ey2"/>
-                <constraint firstItem="pEM-xR-4LA" firstAttribute="top" secondItem="gTV-IL-0wX" secondAttribute="top" constant="10" id="OdX-KQ-9ge"/>
-                <constraint firstAttribute="trailing" secondItem="pEM-xR-4LA" secondAttribute="trailing" constant="10" id="UGw-GG-TvK"/>
-                <constraint firstAttribute="bottom" secondItem="pEM-xR-4LA" secondAttribute="bottom" constant="10" id="eBl-ev-GKp"/>
+                <constraint firstItem="pEM-xR-4LA" firstAttribute="leading" secondItem="gTV-IL-0wX" secondAttribute="leading" id="L0v-KP-ey2"/>
+                <constraint firstItem="pEM-xR-4LA" firstAttribute="top" secondItem="gTV-IL-0wX" secondAttribute="top" id="OdX-KQ-9ge"/>
+                <constraint firstAttribute="trailing" secondItem="pEM-xR-4LA" secondAttribute="trailing" id="UGw-GG-TvK"/>
+                <constraint firstAttribute="bottom" secondItem="pEM-xR-4LA" secondAttribute="bottom" id="eBl-ev-GKp"/>
             </constraints>
             <size key="customSize" width="254" height="305"/>
             <connections>
@@ -84,11 +85,15 @@
         </collectionViewCell>
     </objects>
     <resources>
+        <image name="delete.right" catalog="system" width="128" height="104"/>
         <systemColor name="systemBackgroundColor">
             <color white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
         </systemColor>
         <systemColor name="systemPinkColor">
             <color red="1" green="0.17647058823529413" blue="0.33333333333333331" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+        </systemColor>
+        <systemColor name="systemRedColor">
+            <color red="1" green="0.23137254901960785" blue="0.18823529411764706" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
         </systemColor>
     </resources>
 </document>

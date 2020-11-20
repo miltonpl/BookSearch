@@ -76,6 +76,7 @@ extension  BookListViewController: UITableViewDataSource, UITableViewDelegate {
         let storyboard = UIStoryboard(name: "Main", bundle: nil)
         guard  let detailVC = storyboard.instantiateViewController(identifier: "BookDetailsViewController") as? BookDetailsViewController else { fatalError("unable to instantiateViewController") }
         detailVC.volumeInfo = self.modelView.bookSelectedAt(indexAt: indexPath.row)
+        detailVC.addSaveBarItem()
         let navController = UINavigationController(rootViewController: detailVC)
         self.navigationController?.present(navController, animated: true, completion: nil)
     }

@@ -29,7 +29,7 @@ The project implentation was done first in Swift, then I translated to Objective
 
 ## Sample
 ![Demo1]()
-![Demo2]()
+![Demo2](https://media.giphy.com/media/RmWA8UAhPXVY9CsGrB/giphy.gif)
 
 ---
 # Prerequisites

@@ -21,7 +21,7 @@ class FavoritesBookInfoViewController: UIViewController {
     // MARK: - viewDidLoad
     override func viewDidLoad() {
         super.viewDidLoad()
-        self.title = "Collection View Layout"
+        self.title = "My Collection"
     }
     
     override func viewDidAppear(_ animated: Bool) {

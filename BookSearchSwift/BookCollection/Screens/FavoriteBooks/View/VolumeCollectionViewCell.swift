@@ -17,16 +17,12 @@ class VolumeCollectionViewCell: UICollectionViewCell {
     @IBOutlet private weak var bookImageView: UIImageView!
     @IBOutlet private weak var titleLabel: UILabel!
     @IBOutlet private weak var subtitleLabel: UILabel!
-    @IBOutlet private weak var containerView: UIView! {
-        didSet {
-            self.containerView.layer.borderWidth  = 1.0
-            self.containerView.layer.cornerRadius = 14
-        }
-    }
+    @IBOutlet private weak var containerView: UIView!
     var studentId: Int32?
     
     override func awakeFromNib() {
         super.awakeFromNib()
+        self.containerView.layer.borderWidth  = 1.0
     }
     
     static func nib() -> UINib {
