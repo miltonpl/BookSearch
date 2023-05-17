@@ -29,12 +29,11 @@ enum SqliteError: Error {
 
 // MARK: - Protocol for Data Provider
 protocol DatabaseProvider {
-    //VolumeInfoModel
-    func insert(volume: VolumeInfoModel) throws // create
-    func delete(whereId pKey: Int32) throws //Delete
-    func update(volume: VolumeInfoModel, whereId pKey: Int) throws //Update
-    func read() throws -> [VolumeInfoModel] //Read
-    func insertUsers(volumes: [VolumeInfoModel]) throws //insert array
+    func insert(volume: VolumeInfoModel) throws
+    func delete(whereId pKey: Int32) throws
+    func update(volume: VolumeInfoModel, whereId pKey: Int) throws
+    func read() throws -> [VolumeInfoModel]
+    func insertUsers(volumes: [VolumeInfoModel]) throws
     
     init(dbName: String)
     
@@ -63,7 +62,7 @@ class DBManager: DatabaseProvider {
     
     // MARK: - Create Dadat Base IF Required
     private func createDBIfRequired() throws {
-        //Get the docs directory
+        // Get the docs directory
         guard let docDirectory = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask).first else { throw SqliteError.invalidDirecotyUrl }
         self.dbPath = docDirectory.appendingPathComponent(self.dbName).path
         do {
@@ -93,7 +92,7 @@ class DBManager: DatabaseProvider {
     
     // MARK: - Open DB Connection
     func openConnection() throws -> OpaquePointer? {
-        //opquePointer is required to access the db or interact
+        // opquePointer is required to access the db or interact
         var opaquePointer: OpaquePointer? // It's Swift type for C pointer.
         if sqlite3_open(self.dbPath, &opaquePointer) == SQLITE_OK {
             print("Success Open Connection DB")
@@ -131,15 +130,13 @@ class DBManager: DatabaseProvider {
                 PRIMARY KEY("Id" AUTOINCREMENT)
              );
         """
-        //1.
+
         let dbHandler = try self.prepareStatement(sql: createTableQuery)
         
         defer {
-            //3.
             // Finalize deletes the compiled statement to avoid memory licked
             sqlite3_finalize(dbHandler)
         }
-        //2.
         guard sqlite3_step(dbHandler) == SQLITE_DONE else {
             print("Table no Created\n**Throw error**")
             throw SqliteError.tableCreationFailed
@@ -160,7 +157,7 @@ class DBManager: DatabaseProvider {
     
     // MARK: - Destructor(deinit)
     deinit {
-        sqlite3_close(self.dbPointer) //close DB conncection
+        sqlite3_close(self.dbPointer)
     }
 }
 
@@ -174,7 +171,6 @@ extension DBManager {
 
     // MARK: - Insert UserInfo Row into DB Table
     func insert(volume: VolumeInfoModel) throws {
-        //1
         let query = """
         INSERT INTO BookInfo (  Title,
                                 Authors,
@@ -190,13 +186,11 @@ extension DBManager {
                                 `Book Image Url`)
         VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?);
         """
-        //2
+
         let statement = try self.prepareStatement(sql: query)
         defer {
-            //last
             sqlite3_finalize(statement)
         }
-        //3
         guard sqlite3_bind_text(statement, 1, ((volume.title ?? "") as NSString).utf8String, -1, nil) == SQLITE_OK &&
               sqlite3_bind_text(statement, 2, ((volume.authors ?? "") as NSString).utf8String, -1, nil) == SQLITE_OK &&
                 sqlite3_bind_text(statement, 3, ((volume.subtitle ?? "") as NSString).utf8String, -1, nil) == SQLITE_OK &&
@@ -211,7 +205,6 @@ extension DBManager {
                 sqlite3_bind_text(statement, 12, ((volume.bookImageUrl ?? "") as NSString).utf8String, -1, nil) == SQLITE_OK else {
             throw SqliteError.bindFailed
         }
-        //4
         guard sqlite3_step(statement) == SQLITE_DONE else {
             throw SqliteError.insertSQLiteFailed
         }
@@ -233,17 +226,13 @@ extension DBManager {
     // MARK: - Delete A Row By Id in Table
     func delete(whereId pKey: Int32) throws {
         let query = "DELETE FROM BookInfo WHERE Id = ?;"
-        //1
         let statement = try self.prepareStatement(sql: query)
-        //2
         guard sqlite3_bind_int(statement, 1, pKey) == SQLITE_OK else { throw SqliteError.bindFailed }
         
         defer {
-            //4
             sqlite3_finalize(statement)
             print("Deleted volume with id: \(pKey)")
         }
-        //3
         guard sqlite3_step(statement) == SQLITE_DONE else {
             throw SqliteError.deleteFailed
         }
@@ -252,8 +241,7 @@ extension DBManager {
     
     // MARK: - Update Rows in Table
     func update(volume: VolumeInfoModel, whereId pKey: Int) throws {
-        //1
-       
+  
         let query = """
         UPDATE BookInfo
         SET `Title` = '\(volume.title ?? "")',
@@ -271,13 +259,11 @@ extension DBManager {
 
         WHERE Id = \(pKey)
         """
-        //2
+
         let statement = try self.prepareStatement(sql: query)
         defer {
-            //4
             sqlite3_finalize(statement)
         }
-        //3
         guard sqlite3_step(statement) == SQLITE_DONE else {
             throw SqliteError.updateFailed
         }

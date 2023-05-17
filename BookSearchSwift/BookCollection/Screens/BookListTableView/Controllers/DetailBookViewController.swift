@@ -148,7 +148,7 @@ extension DetailBookViewController: UITableViewDataSource, UITableViewDelegate {
             fatalError("Unable to dequeue DetailTableViewCell")
         }
         let type = nameArray[indexPath.row]
-        guard let data = dictArray [type] else {fatalError("Fatal Erro")}
+        guard let data = dictArray[type] else {fatalError("Fatal Erro")}
         let labelName = type.rawValue
         cell.setupProperties(name: labelName, data: data)
         return cell

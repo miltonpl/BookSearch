@@ -61,7 +61,7 @@ class FavoritesBookInfoViewController: UIViewController {
 }
 
 // MARK: - UICollectionViewDelegate
-//cell.configure(model: self.modelView.bookInfoAtIndex(indexAt: indexPath.row))
+// cell.configure(model: self.modelView.bookInfoAtIndex(indexAt: indexPath.row))
 
 extension FavoritesBookInfoViewController: UICollectionViewDelegate {
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
