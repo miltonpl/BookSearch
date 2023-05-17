@@ -13,7 +13,7 @@ class BookListViewController: UIViewController {
     @IBOutlet private weak var tableView: UITableView!
     
     // MARK: - Store Properties
-    private var modelView = BooksViewModel()
+    private var modelView = BooksViewModel(service: .init(networking: .init()))
     private lazy var activityIdicator: UIActivityIndicatorView = {
         let activityIndicator = UIActivityIndicatorView(style: .large)
         activityIndicator.color = .black

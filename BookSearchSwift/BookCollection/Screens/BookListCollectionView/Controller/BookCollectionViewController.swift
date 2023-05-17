@@ -15,7 +15,7 @@ class BookCollectionViewController: UIViewController {
     @IBOutlet private weak var collectionView: UICollectionView!
     
     // MARK: - Store Private Properties
-    private var modelView = BooksViewModel()
+    private var modelView = BooksViewModel(service: .init(networking: .init()))
     private var itemsPerRow: CGFloat = 2.0
     private var sectionInset = UIEdgeInsets(top: 10.0, left: 10.0, bottom: 10.0, right: 10.0)
     

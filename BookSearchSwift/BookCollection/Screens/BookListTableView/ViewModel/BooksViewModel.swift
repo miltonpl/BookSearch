@@ -16,10 +16,8 @@ protocol BooksviewModelProtocol: AnyObject {
 
 protocol BookListViewControllerProtocol {
     var fetchDataWorkItem: DispatchWorkItem? { get set }
-    func fetchData(query: String)
     func handleBookSearch(text: String)
     func resetDataSource()
-    
     func numberOfRow() -> Int
     func bookInfoAtIndex(indexAt row: Int) -> CellModel
     func bookSelectedAt(indexAt row: Int) -> VolumeInfoModel
@@ -35,28 +33,32 @@ class BooksViewModel: BookListViewControllerProtocol {
             self.delegate?.reloadSuccess()
         }
     }
-    
+
+    let service: BookSearchService
+
+    init(service: BookSearchService) {
+        self.service = service
+    }
+
     func resetDataSource() {
         self.dataSource = []
     }
+
     // MARK: - Fetch Data From Server
     
-    func fetchData(query: String) {
+    private func fetchData(query: String) {
         DispatchQueue.main.async {
             self.delegate?.showLoader()
         }
-        let strUrl = "\(Constants.api)\(Constants.endPoint)\(query)"
-        guard let url = URL(string: strUrl) else { return }
-        ServiceManager.manager.request(url: url) { (data, error) in
-            guard let dataObj = data as? Data else { return }
-            do {
-                let responseObj = try JSONDecoder().decode(APIResponse.self, from: dataObj)
+
+        service.search(query: query) { result in
+            switch result {
+            case .success(let data):
                 DispatchQueue.main.async {
-                    self.dataSource = responseObj.items ?? []
+                    self.dataSource = data.items ?? []
                     self.delegate?.hideLoader()
                 }
-                
-            } catch {
+            case .failure(let error):
                 DispatchQueue.main.async {
                     self.delegate?.reloadFailure(error: error)
                     self.delegate?.hideLoader()
@@ -64,14 +66,14 @@ class BooksViewModel: BookListViewControllerProtocol {
             }
         }
     }
-    
+
     func handleBookSearch(text: String) {
-        self.fetchDataWorkItem?.cancel()
-        self.fetchDataWorkItem = DispatchWorkItem.init(block: {
-            self.fetchData(query: text)
+        fetchDataWorkItem?.cancel()
+        fetchDataWorkItem = DispatchWorkItem.init(block: { [weak self] in
+            self?.fetchData(query: text)
         })
         
-        guard let workItem = self.fetchDataWorkItem else { return }
+        guard let workItem = fetchDataWorkItem else { return }
         DispatchQueue.global().asyncAfter(deadline: .now() + 3.0, execute: workItem)
     }
     
