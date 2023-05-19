@@ -12,12 +12,14 @@ class BookSearchService: HttpService {
     enum BookSearchServiceError: Error {
         case statusCode(Int)
         case unkown
+        case invalidUrl
     }
 
     func search(query: String, completionHandler: @escaping(Result<APIResponse, Error>) -> Void) {
-        let strUrl = "\(Constants.api)\(Constants.endPoint)\(query)"
-        guard let url = URL(string: strUrl) else { return }
-        
+        guard let url = endpoint.path(.bookSerch(query)) else {
+            return completionHandler(.failure(BookSearchServiceError.invalidUrl))
+        }
+    
         networking.request(with: .init(url: url)) { [weak self] data, response, error in
             guard let data = data, error == nil else {
                 if let error = self?.handleURLResponse(response: response) {
