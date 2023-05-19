@@ -10,17 +10,13 @@ import Combine
 import Foundation
 
 class HttpService {
-    let networking: Networking
+    let networking: Networking2
 
-    init(networking: Networking) {
+    init(networking: Networking2) {
         self.networking = networking
     }
     
     func request(url: URL, completionHandler: @escaping @Sendable (Data?, URLResponse?, Error?) -> Void) {
-        networking.request(url: url, completionHandler: completionHandler)
-    }
-
-    func request(url: URL) -> AnyPublisher<URLSession.DataTaskPublisher.Output, Error> {
-        networking.dataTaskPublisher(url: url)
+        networking.request(with: .init(url: url), completionHandler: completionHandler)
     }
 }

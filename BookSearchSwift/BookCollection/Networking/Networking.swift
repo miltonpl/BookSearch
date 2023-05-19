@@ -42,7 +42,6 @@ class Networking {
     private let session: URLSession
     private var requests = [QueueRequest]()
     private var _state: State = .running
-    private var dataTask: URLSessionDataTask?
     
     init(session: URLSession = .shared) {
         self.session = session
@@ -50,24 +49,16 @@ class Networking {
 
     func suspend() {
         state = .suspended
-        dataTask?.suspend()
     }
 
     func resume() {
         state = .running
-        dataTask?.resume()
-    }
-
-    func request(url: URL, completionHandler: @escaping @Sendable (Data?, URLResponse?, Error?) -> Void) {
-        
-        dataTask = session.dataTask(with: url, completionHandler: completionHandler)
-        dataTask?.resume()
     }
 
     func dataTaskPublisher(url: URL) -> AnyPublisher<URLSession.DataTaskPublisher.Output, Error> {
         switch state {
         case .running:
-            return requestPublisher(request: .init(url: url))
+            return sendPublisher(request: .init(url: url))
         case .suspended:
             return queuePublisher(request: .init(url: url))
         }
@@ -81,12 +72,12 @@ class Networking {
         }
         .setFailureType(to: Error.self)
         .flatMapWeakly { [weak self] request in
-            return self?.requestPublisher(request: request)
+            return self?.sendPublisher(request: request)
         }
         .eraseToAnyPublisher()
     }
 
-    private func requestPublisher(request: URLRequest) -> AnyPublisher<URLSession.DataTaskPublisher.Output, Error> {
+    private func sendPublisher(request: URLRequest) -> AnyPublisher<URLSession.DataTaskPublisher.Output, Error> {
         return responsePublisher(request: request)
             .subscribe(on: Self.networkQueue)
             .receive(on: Self.stateQueue)

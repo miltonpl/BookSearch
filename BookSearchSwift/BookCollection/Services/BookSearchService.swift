@@ -18,7 +18,7 @@ class BookSearchService: HttpService {
         let strUrl = "\(Constants.api)\(Constants.endPoint)\(query)"
         guard let url = URL(string: strUrl) else { return }
         
-        networking.request(url: url) { [weak self] data, response, error in
+        networking.request(with: .init(url: url)) { [weak self] data, response, error in
             guard let data = data, error == nil else {
                 if let error = self?.handleURLResponse(response: response) {
                     completionHandler(.failure(error))
